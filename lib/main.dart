@@ -1,14 +1,18 @@
 
 import 'package:flutter/material.dart';
-import 'package:flutter_ml_ocr/presentation/ocr_ktp/capture_ktp_page.dart';
 
 import 'injectable.dart';
+import 'presentation/ocr_ktp/capture_ktp_page.dart';
 
 
 void main() {
+  registerWebViewWebImplementation();
   // Memanggil function config dependencies INJECTOR
   configureDependencies();
   runApp(const MyApp());
+}
+
+void registerWebViewWebImplementation() {
 }
 
 class MyApp extends StatelessWidget {

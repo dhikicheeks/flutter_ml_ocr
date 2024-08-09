@@ -118,6 +118,7 @@ String normalizeAlamatText(String text) {
       .replaceAll("KEVBESA", "")
       .replaceAll("KELBESA", "")
       .replaceAll("KE/DESA", "")
+      .replaceAll("KEL/DESA", "")
       .replaceAll("ELLDESA", "")
       .replaceAll("KELDESA", "")
       .replaceAll("ALAMAT", "")

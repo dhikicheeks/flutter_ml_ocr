@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:math';
 
 import 'package:camera/camera.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_ml_ocr/application/ocr_ktp/ocr_ktp_cubit.dart';
@@ -144,6 +145,19 @@ class _CaptureKtpPageState extends State<CaptureKtpPage> {
     );
   }
 
+  final dio = Dio();
+
+  Future<void> uploadImage(File file) async {
+    String fileName = file.path.split('/').last;
+    FormData formData = FormData.fromMap({
+      "cek_file": await MultipartFile.fromFile(file.path, filename:fileName),
+    });
+    final response = await dio.post('http://50.50.50.27:9000/api/ocr_file', data: formData);
+    print(response.data);
+    // return response.data;
+    // cek_file
+  }
+
   Future<void> getPictureScreen() {
     const _chars = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
     Random _rnd = Random();
@@ -161,6 +175,7 @@ class _CaptureKtpPageState extends State<CaptureKtpPage> {
       final directory = (await getApplicationDocumentsDirectory()).path;
       File imgFile = new File('$directory/$randName.png');
       imgFile.writeAsBytes(capturedImage!).then((value) async {
+        uploadImage(imgFile);
         XFile file = new XFile(imgFile.path);
         return generateDataOcrKtpCubit.generateDataOcrKtpCubit(file);
       }).catchError((onError) {
